@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Бриф для будівельної компанії — StartAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#f8f9fc;--white:#fff;--blue:#1e40af;--blue2:#3b82f6;
+      --orange:#ea6c00;--orange2:#f97316;--ora-lt:#fff7ed;
+      --text:#0f172a;--muted:#64748b;--border:#e2e8f0;--green:#16a34a;
+    }
+    body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* TOP BAR */
+    .topbar{background:var(--blue);color:#fff;font-size:13px;padding:10px 0;text-align:center;}
+    .topbar a{color:#93c5fd;text-decoration:none;}
+
+    /* HEADER */
+    .header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header-inner{max-width:780px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-size:17px;font-weight:800;color:var(--blue);text-decoration:none;}
+    .logo span{color:var(--orange);}
+    .header-back{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .header-back:hover{color:var(--blue);}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,var(--blue) 0%,#1e3a8a 100%);color:#fff;padding:56px 24px 48px;text-align:center;}
+    .hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:6px 18px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:18px;}
+    .hero h1{font-size:clamp(24px,5vw,38px);font-weight:800;line-height:1.2;margin-bottom:14px;}
+    .hero p{font-size:15px;opacity:.8;max-width:500px;margin:0 auto 28px;line-height:1.6;}
+    .steps-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+    .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;transition:background .2s,border-color .2s;}
+    .pill.done{background:var(--green);border-color:var(--green);}
+    .pill.active{background:var(--orange);border-color:var(--orange);}
+
+    /* WRAP */
+    .wrap{max-width:780px;margin:0 auto;padding:40px 24px 80px;}
+
+    /* PROGRESS */
+    .prog-wrap{background:var(--border);border-radius:4px;height:5px;margin-bottom:36px;overflow:hidden;}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:4px;transition:width .4s ease;}
+
+    /* STEP CARD */
+    .step{background:var(--white);border-radius:20px;padding:40px;border:1px solid var(--border);display:none;}
+    .step.active{display:block;}
+    .step-badge{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:var(--orange);color:#fff;border-radius:50%;font-size:14px;font-weight:800;margin-bottom:16px;}
+    .step-title{font-size:22px;font-weight:800;margin-bottom:8px;}
+    .step-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:32px;}
+
+    /* FIELDS */
+    .field{margin-bottom:22px;}
+    .field label{display:block;font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);}
+    .field label .req{color:var(--orange);margin-left:2px;}
+    .field input[type=text],
+    .field input[type=tel],
+    .field input[type=url],
+    .field input[type=email],
+    .field textarea,
+    .field select{
+      width:100%;border:1.5px solid var(--border);border-radius:12px;
+      padding:12px 16px;font-size:14px;font-family:inherit;
+      color:var(--text);background:#fff;outline:none;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{
+      border-color:var(--orange2);box-shadow:0 0 0 3px rgba(234,108,0,.1);
+    }
+    .field textarea{resize:vertical;min-height:90px;}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+    /* RADIO / CHECK */
+    .radio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+    .radio-item,.check-item{
+      border:1.5px solid var(--border);border-radius:12px;padding:14px;
+      cursor:pointer;transition:border-color .2s,background .2s;user-select:none;
+    }
+    .radio-item:hover,.check-item:hover{border-color:var(--orange2);background:#fff7ed;}
+    .radio-item.sel,.check-item.sel{border-color:var(--orange);background:var(--ora-lt);}
+    .radio-item input,.check-item input{display:none;}
+    .ri-title{font-size:14px;font-weight:700;color:var(--text);}
+    .ri-sub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+    /* FILE UPLOAD */
+    .file-zone{
+      border:2px dashed var(--border);border-radius:14px;
+      padding:28px 20px;text-align:center;cursor:pointer;
+      transition:border-color .2s,background .2s;position:relative;
+      background:#fafbfc;
+    }
+    .file-zone:hover,.file-zone.drag{border-color:var(--orange);background:var(--ora-lt);}
+    .file-zone input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+    .file-zone-icon{font-size:32px;margin-bottom:10px;}
+    .file-zone-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .file-zone-sub{font-size:12px;color:var(--muted);}
+
+    /* PREVIEWS */
+    .preview-logo{
+      display:none;margin-top:14px;align-items:center;gap:12px;
+      background:var(--bg);border-radius:12px;padding:12px 16px;border:1px solid var(--border);
+    }
+    .preview-logo.show{display:flex;}
+    .preview-logo img{width:60px;height:60px;object-fit:contain;border-radius:8px;border:1px solid var(--border);}
+    .preview-logo-name{font-size:13px;font-weight:600;color:var(--text);}
+    .preview-logo-size{font-size:12px;color:var(--muted);}
+    .preview-logo-remove{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;transition:color .2s;}
+    .preview-logo-remove:hover{color:#ef4444;}
+
+    .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:14px;}
+    .photo-thumb{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg);border:1px solid var(--border);}
+    .photo-thumb img{width:100%;height:100%;object-fit:cover;}
+    .photo-thumb-remove{
+      position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);
+      color:#fff;border:none;border-radius:50%;width:22px;height:22px;
+      font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:background .2s;
+    }
+    .photo-thumb-remove:hover{background:rgba(239,68,68,.85);}
+
+    .file-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+    .file-item{
+      display:flex;align-items:center;gap:10px;background:var(--bg);
+      border:1px solid var(--border);border-radius:10px;padding:10px 14px;
+    }
+    .file-item-icon{font-size:20px;}
+    .file-item-name{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .file-item-size{font-size:12px;color:var(--muted);flex-shrink:0;}
+    .file-item-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px;transition:color .2s;}
+    .file-item-remove:hover{color:#ef4444;}
+
+    /* SOCIAL LINKS */
+    .social-links{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+    .social-link-row{display:flex;align-items:center;gap:10px;}
+    .social-link-label{font-size:13px;font-weight:600;color:var(--muted);min-width:90px;}
+    .social-link-row input{flex:1;}
+
+    /* COUNTER */
+    .photo-counter{font-size:12px;color:var(--muted);margin-top:8px;font-family:'DM Mono',monospace;}
+    .photo-counter span{color:var(--orange);font-weight:700;}
+
+    /* NAV */
+    .step-nav{display:flex;align-items:center;justify-content:space-between;margin-top:36px;gap:12px;flex-wrap:wrap;}
+    .step-counter{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:13px 28px;
+      border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;
+      cursor:pointer;border:none;transition:all .2s;text-decoration:none;
+    }
+    .btn-primary{background:var(--orange);color:#fff;}
+    .btn-primary:hover{background:var(--orange2);transform:translateY(-1px);}
+    .btn-secondary{background:transparent;color:var(--muted);border:1.5px solid var(--border);}
+    .btn-secondary:hover{border-color:var(--orange2);color:var(--orange);}
+    .btn-submit{background:var(--blue);color:#fff;}
+    .btn-submit:hover{background:#1e3a8a;transform:translateY(-1px);}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;}
+
+    /* SUCCESS */
+    .success{display:none;text-align:center;padding:60px 40px;}
+    .success.show{display:block;}
+    .success-icon{font-size:72px;margin-bottom:20px;}
+    .success-title{font-size:28px;font-weight:800;margin-bottom:12px;}
+    .success-sub{font-size:15px;color:var(--muted);line-height:1.6;max-width:420px;margin:0 auto 32px;}
+
+    /* SENDING OVERLAY */
+    .overlay{
+      position:fixed;inset:0;background:rgba(255,255,255,.9);
+      display:none;flex-direction:column;align-items:center;justify-content:center;
+      z-index:9999;
+    }
+    .overlay.show{display:flex;}
+    .spinner{
+      width:48px;height:48px;border:4px solid var(--border);
+      border-top-color:var(--orange);border-radius:50%;
+      animation:spin .8s linear infinite;margin-bottom:20px;
+    }
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .overlay-text{font-size:15px;font-weight:600;color:var(--text);}
+    .overlay-sub{font-size:13px;color:var(--muted);margin-top:6px;}
+
+    /* ERROR */
+    .err-msg{font-size:12px;color:#ef4444;margin-top:6px;display:none;}
+    .err-msg.show{display:block;}
+
+    footer{text-align:center;padding:28px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border);}
+    footer a{color:var(--blue);text-decoration:none;}
+
+    @media(max-width:600px){
+      .step{padding:24px 18px;}
+      .field-row{grid-template-columns:1fr;}
+      .radio-grid{grid-template-columns:1fr 1fr;}
+      .btn{font-size:13px;padding:11px 20px;}
+      .step-nav{gap:8px;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  Заповніть бриф — ми підготуємо пропозицію протягом кількох годин &nbsp;·&nbsp;
+  <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Start<span>AI</span></a>
+    <a href="index.html" class="header-back">← До пропозиції</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">Бриф · 5 хвилин</div>
+  <h1>Розкажіть про ваш бізнес</h1>
+  <p>Заповніть коротку форму — і ми підготуємо персональну пропозицію зі строками та цінами.</p>
+  <div class="steps-pills" id="pills">
+    <div class="pill active">1. Бізнес</div>
+    <div class="pill">2. Послуги</div>
+    <div class="pill">3. Контент</div>
+    <div class="pill">4. Технічне</div>
+    <div class="pill">5. Контакти</div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <div class="overlay-text" id="overlay-text">Відправляємо бриф...</div>
+  <div class="overlay-sub" id="overlay-sub">Зачекайте, це займе кілька секунд</div>
+</div>
+
+<div class="wrap">
+  <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:20%"></div></div>
+
+  <!-- STEP 1: Про бізнес -->
+  <div class="step active" id="step1">
+    <div class="step-badge">1</div>
+    <div class="step-title">Про ваш бізнес</div>
+    <div class="step-sub">Базова інформація про компанію. Займе 1 хвилину.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Назва компанії <span class="req">*</span></label>
+        <input type="text" id="companyName" placeholder="ТОВ «БудМайстер»…"/>
+        <div class="err-msg" id="err-companyName">Вкажіть назву компанії</div>
+      </div>
+      <div class="field">
+        <label>Телефон для заявок <span class="req">*</span></label>
+        <input type="tel" id="companyPhone" placeholder="+38 (0XX) XXX XX XX"/>
+        <div class="err-msg" id="err-companyPhone">Вкажіть телефон</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Місто / регіони роботи <span class="req">*</span></label>
+      <input type="text" id="companyCity" placeholder="Наприклад: Чернігів, Київська область, вся Україна…"/>
+      <div class="err-msg" id="err-companyCity">Вкажіть регіон роботи</div>
+    </div>
+
+    <div class="field">
+      <label>Скільки років на ринку?</label>
+      <div class="radio-grid">
+        <label class="radio-item" onclick="selRadio(this,'age')">
+          <input type="radio" name="age" value="До 1 року"/>
+          <div class="ri-title">До 1 року</div><div class="ri-sub">Починаємо</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'age')">
+          <input type="radio" name="age" value="1–3 роки"/>
+          <div class="ri-title">1–3 роки</div><div class="ri-sub">Набираємо оберти</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'age')">
+          <input type="radio" name="age" value="3–10 років"/>
+          <div class="ri-title">3–10 років</div><div class="ri-sub">Стабільна компанія</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'age')">
+          <input type="radio" name="age" value="10+ років"/>
+          <div class="ri-title">10+ років</div><div class="ri-sub">Великий досвід</div>
+        </label>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <span class="step-counter">Крок 1 з 5</span>
+      <button class="btn btn-primary" onclick="next(1)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Послуги -->
+  <div class="step" id="step2">
+    <div class="step-badge">2</div>
+    <div class="step-title">Ваші послуги</div>
+    <div class="step-sub">Оберіть напрямки бізнесу, для яких потрібні сайти.</div>
+
+    <div class="field">
+      <label>Що ви робите? (оберіть всі відповідні)</label>
+      <div class="radio-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Будівництво"/><div class="ri-title">🧱 Будівництво</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Ремонт"/><div class="ri-title">🔨 Ремонт</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Басейни"/><div class="ri-title">🏊 Басейни</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Сонячні панелі"/><div class="ri-title">☀️ Сонячні панелі</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Теплові насоси"/><div class="ri-title">🌡️ Теплові насоси</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Вентиляція та кондиціонери"/><div class="ri-title">💨 Вентиляція/кондиціонери</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Водопостачання"/><div class="ri-title">💧 Водопостачання</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Електромонтаж"/><div class="ri-title">⚡ Електромонтаж</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Ландшафт та полив"/><div class="ri-title">🌿 Ландшафт/полив</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Відеоспостереження"/><div class="ri-title">📹 Відеоспостереження</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Дизайн інтер'єру"/><div class="ri-title">🛋️ Дизайн інтер'єру</div></label>
+        <label class="check-item" onclick="togCheck(this)"><input type="checkbox" name="srv" value="Оренда обладнання"/><div class="ri-title">🏗️ Оренда обладнання</div></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Інші послуги</label>
+      <input type="text" id="srvOther" placeholder="Вкажіть якщо не знайшли вище…"/>
+    </div>
+
+    <div class="field">
+      <label>Хто ваш типовий клієнт?</label>
+      <div class="radio-grid">
+        <label class="radio-item" onclick="selRadio(this,'client')">
+          <input type="radio" name="client" value="Приватні особи (B2C)"/>
+          <div class="ri-title">👤 Приватні</div><div class="ri-sub">Будинки, квартири</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'client')">
+          <input type="radio" name="client" value="Бізнес (B2B)"/>
+          <div class="ri-title">🏢 Бізнес</div><div class="ri-sub">Компанії, підприємства</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'client')">
+          <input type="radio" name="client" value="І приватні, і бізнес"/>
+          <div class="ri-title">👥 Обидва</div><div class="ri-sub">Різні клієнти</div>
+        </label>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-secondary" onclick="prev(2)">← Назад</button>
+      <span class="step-counter">Крок 2 з 5</span>
+      <button class="btn btn-primary" onclick="next(2)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Контент і стиль -->
+  <div class="step" id="step3">
+    <div class="step-badge">3</div>
+    <div class="step-title">Контент і стиль</div>
+    <div class="step-sub">Завантажте матеріали — ми використаємо їх при розробці.</div>
+
+    <!-- LOGO -->
+    <div class="field">
+      <label>Логотип компанії</label>
+      <div class="file-zone" id="logoZone">
+        <input type="file" id="logoInput" accept="image/*" onchange="handleLogo(this)"/>
+        <div class="file-zone-icon">🎨</div>
+        <div class="file-zone-title">Натисніть або перетягніть логотип</div>
+        <div class="file-zone-sub">PNG, SVG, JPG · до 10 МБ</div>
+      </div>
+      <div class="preview-logo" id="logoPrev">
+        <img id="logoImg" src="" alt="logo"/>
+        <div>
+          <div class="preview-logo-name" id="logoName"></div>
+          <div class="preview-logo-size" id="logoSize"></div>
+        </div>
+        <button class="preview-logo-remove" onclick="removeLogo()" title="Видалити">✕</button>
+      </div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="field">
+      <label>Фото об'єктів / виконаних робіт</label>
+      <div class="file-zone" id="photosZone">
+        <input type="file" id="photosInput" accept="image/*" multiple onchange="handlePhotos(this)"/>
+        <div class="file-zone-icon">📸</div>
+        <div class="file-zone-title">Натисніть або перетягніть фотографії</div>
+        <div class="file-zone-sub">JPG, PNG, WEBP · до 10 файлів · до 10 МБ кожен</div>
+      </div>
+      <div class="photo-counter" id="photoCounter" style="display:none">
+        Завантажено: <span id="photoCount">0</span> / 10 фото
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="field">
+      <label>Відео (промо / огляд робіт)</label>
+      <div class="file-zone" id="videoZone">
+        <input type="file" id="videoInput" accept="video/*" onchange="handleVideo(this)"/>
+        <div class="file-zone-icon">🎬</div>
+        <div class="file-zone-title">Натисніть або перетягніть відео</div>
+        <div class="file-zone-sub">MP4, MOV, AVI · до 50 МБ</div>
+      </div>
+      <div class="file-list" id="videoList"></div>
+    </div>
+
+    <div class="field">
+      <label>Побажання щодо стилю / кольорів</label>
+      <textarea id="styleNotes" placeholder="Наприклад: строгий корпоративний стиль, темно-синій + білий; або — без побажань, довіряємо вам…"></textarea>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-secondary" onclick="prev(3)">← Назад</button>
+      <span class="step-counter">Крок 3 з 5</span>
+      <button class="btn btn-primary" onclick="next(3)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Технічне -->
+  <div class="step" id="step4">
+    <div class="step-badge">4</div>
+    <div class="step-title">Технічна інформація</div>
+    <div class="step-sub">Допоможіть нам зрозуміти вашу поточну інфраструктуру.</div>
+
+    <div class="field">
+      <label>Є діючий домен?</label>
+      <div class="radio-grid" style="grid-template-columns:1fr 1fr;">
+        <label class="radio-item" onclick="selRadio(this,'domain');togField('domainInput',true)">
+          <input type="radio" name="domain" value="Так"/>
+          <div class="ri-title">✅ Так, є</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'domain');togField('domainInput',false)">
+          <input type="radio" name="domain" value="Ні"/>
+          <div class="ri-title">❌ Немає</div>
+        </label>
+      </div>
+      <div id="domainInput" style="margin-top:10px;display:none;">
+        <input type="url" id="domainUrl" placeholder="https://your-site.ua"/>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Яку CRM використовуєте?</label>
+      <div class="radio-grid">
+        <label class="radio-item" onclick="selRadio(this,'crm')">
+          <input type="radio" name="crm" value="Немає CRM"/>
+          <div class="ri-title">🚫 Немає</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'crm')">
+          <input type="radio" name="crm" value="Bitrix24"/>
+          <div class="ri-title">🔷 Bitrix24</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'crm')">
+          <input type="radio" name="crm" value="amoCRM"/>
+          <div class="ri-title">🟣 amoCRM</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'crm');togField('crmOtherWrap',true)">
+          <input type="radio" name="crm" value="Інша"/>
+          <div class="ri-title">⚙️ Інша</div>
+        </label>
+      </div>
+      <div id="crmOtherWrap" style="margin-top:10px;display:none;">
+        <input type="text" id="crmOther" placeholder="Назва вашої CRM…"/>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Є акаунти в соцмережах?</label>
+      <div class="radio-grid" style="grid-template-columns:1fr 1fr;">
+        <label class="radio-item" onclick="selRadio(this,'social');togField('socialLinks',true)">
+          <input type="radio" name="social" value="Так"/>
+          <div class="ri-title">✅ Так</div>
+        </label>
+        <label class="radio-item" onclick="selRadio(this,'social');togField('socialLinks',false)">
+          <input type="radio" name="social" value="Ні"/>
+          <div class="ri-title">❌ Немає</div>
+        </label>
+      </div>
+      <div class="social-links" id="socialLinks" style="display:none;margin-top:12px;">
+        <div class="social-link-row">
+          <span class="social-link-label">👍 Facebook</span>
+          <input type="url" id="fb" class="field" placeholder="https://facebook.com/…" style="margin:0"/>
+        </div>
+        <div class="social-link-row">
+          <span class="social-link-label">📸 Instagram</span>
+          <input type="url" id="ig" class="field" placeholder="https://instagram.com/…" style="margin:0"/>
+        </div>
+        <div class="social-link-row">
+          <span class="social-link-label">▶️ YouTube</span>
+          <input type="url" id="yt" class="field" placeholder="https://youtube.com/…" style="margin:0"/>
+        </div>
+        <div class="social-link-row">
+          <span class="social-link-label">✈️ Telegram</span>
+          <input type="text" id="tgPage" class="field" placeholder="@channel або посилання" style="margin:0"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Є сайт-конкурент або приклад який подобається?</label>
+      <textarea id="competitors" placeholder="Посилання або назви сайтів що подобаються. Або — немає."></textarea>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-secondary" onclick="prev(4)">← Назад</button>
+      <span class="step-counter">Крок 4 з 5</span>
+      <button class="btn btn-primary" onclick="next(4)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Контакти -->
+  <div class="step" id="step5">
+    <div class="step-badge">5</div>
+    <div class="step-title">Ваші контакти</div>
+    <div class="step-sub">Вкажіть дані менеджера який буде приймати заявки та веде цей проект.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Ім'я <span class="req">*</span></label>
+        <input type="text" id="managerName" placeholder="Як до вас звертатись?"/>
+        <div class="err-msg" id="err-managerName">Вкажіть ім'я</div>
+      </div>
+      <div class="field">
+        <label>Телефон <span class="req">*</span></label>
+        <input type="tel" id="managerPhone" placeholder="+38 (0XX) XXX XX XX"/>
+        <div class="err-msg" id="err-managerPhone">Вкажіть телефон</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Telegram <span class="req">*</span></label>
+      <input type="text" id="managerTg" placeholder="@username або +38…"/>
+      <div class="err-msg" id="err-managerTg">Вкажіть Telegram або телефон для зв'язку</div>
+    </div>
+
+    <div class="field">
+      <label>Email (необов'язково)</label>
+      <input type="email" id="managerEmail" placeholder="manager@company.ua"/>
+    </div>
+
+    <div class="field">
+      <label>Додаткові коментарі</label>
+      <textarea id="comments" placeholder="Що ще важливо знати? Особливі вимоги, питання, побажання…"></textarea>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-secondary" onclick="prev(5)">← Назад</button>
+      <span class="step-counter">Крок 5 з 5</span>
+      <button class="btn btn-submit" id="submitBtn" onclick="submitBrief()">
+        ✓ Відправити бриф
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="step success" id="success">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Бриф отримано!</div>
+    <div class="success-sub">Дякуємо! Ми вивчимо ваші матеріали і зв'яжемось протягом кількох годин із персональною пропозицією.</div>
+    <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-primary" style="margin:0 auto;">
+      ✈️ Написати в Telegram зараз
+    </a>
+  </div>
+</div>
+
+<footer>
+  © 2025 StartAI · Дмитро Кутєпов ·
+  <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a> ·
+  <a href="index.html">← До пропозиції</a>
+</footer>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────
+const TG_TOKEN   = '8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
+const TG_CHAT_ID = '503549265';
+
+// ─── STATE ───────────────────────────────────────────────
+let cur = 1;
+const TOTAL = 5;
+let logoFile  = null;
+let photoFiles= [];
+let videoFile = null;
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function updateUI(){
+  document.getElementById('prog').style.width = (cur/TOTAL*100)+'%';
+  document.querySelectorAll('.pill').forEach((p,i)=>{
+    p.classList.remove('active','done');
+    if(i+1 < cur) p.classList.add('done');
+    if(i+1 === cur) p.classList.add('active');
+  });
+}
+
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById('step'+n);
+  if(el){ el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+  cur = n;
+  updateUI();
+}
+
+function next(from){
+  if(!validate(from)) return;
+  showStep(from+1);
+}
+function prev(from){ showStep(from-1); }
+
+// ─── VALIDATION ───────────────────────────────────────────
+function validate(step){
+  let ok = true;
+  if(step===1){
+    ok = req('companyName') & req('companyCity') & req('companyPhone');
+  }
+  if(step===5){
+    ok = req('managerName') & req('managerPhone') & req('managerTg');
+  }
+  return !!ok;
+}
+function req(id){
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-'+id);
+  if(!el) return true;
+  const v = el.value.trim();
+  if(!v){
+    if(err) err.classList.add('show');
+    el.focus();
+    return false;
+  }
+  if(err) err.classList.remove('show');
+  return true;
+}
+
+// ─── RADIO / CHECK ───────────────────────────────────────
+function selRadio(el, name){
+  document.querySelectorAll(`[name="${name}"]`).forEach(r=>{
+    r.closest('.radio-item')?.classList.remove('sel');
+  });
+  el.classList.add('sel');
+  el.querySelector('input').checked = true;
+}
+function togCheck(el){
+  el.classList.toggle('sel');
+  el.querySelector('input').checked = el.classList.contains('sel');
+}
+function togField(id, show){
+  const el = document.getElementById(id);
+  if(el) el.style.display = show ? 'block' : 'none';
+}
+// Hide crm other on non-"Інша" selection
+document.querySelectorAll('[name="crm"]').forEach(r=>{
+  r.closest('.radio-item')?.addEventListener('click',()=>{
+    if(r.value !== 'Інша') togField('crmOtherWrap', false);
+  });
+});
+
+// ─── FILE HANDLERS ───────────────────────────────────────
+function fmtSize(b){ return b>1048576?(b/1048576).toFixed(1)+' МБ':(b/1024).toFixed(0)+' КБ'; }
+
+function handleLogo(input){
+  const f = input.files[0]; if(!f) return;
+  logoFile = f;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    document.getElementById('logoImg').src = e.target.result;
+    document.getElementById('logoName').textContent = f.name;
+    document.getElementById('logoSize').textContent = fmtSize(f.size);
+    document.getElementById('logoPrev').classList.add('show');
+  };
+  reader.readAsDataURL(f);
+}
+function removeLogo(){
+  logoFile = null;
+  document.getElementById('logoInput').value = '';
+  document.getElementById('logoPrev').classList.remove('show');
+}
+
+function handlePhotos(input){
+  const files = Array.from(input.files);
+  const remaining = 10 - photoFiles.length;
+  const toAdd = files.slice(0, remaining);
+  photoFiles = [...photoFiles, ...toAdd];
+  renderPhotos();
+  input.value = '';
+}
+function renderPhotos(){
+  const grid = document.getElementById('photoGrid');
+  const counter = document.getElementById('photoCounter');
+  const cnt = document.getElementById('photoCount');
+  grid.innerHTML = '';
+  photoFiles.forEach((f,i)=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const thumb = document.createElement('div');
+      thumb.className = 'photo-thumb';
+      thumb.innerHTML = `<img src="${e.target.result}" alt=""/><button class="photo-thumb-remove" onclick="removePhoto(${i})">✕</button>`;
+      grid.appendChild(thumb);
+    };
+    reader.readAsDataURL(f);
+  });
+  counter.style.display = photoFiles.length ? 'block' : 'none';
+  cnt.textContent = photoFiles.length;
+  // disable zone if 10 reached
+  document.getElementById('photosInput').disabled = photoFiles.length >= 10;
+}
+function removePhoto(i){
+  photoFiles.splice(i,1);
+  renderPhotos();
+}
+
+function handleVideo(input){
+  const f = input.files[0]; if(!f) return;
+  videoFile = f;
+  const list = document.getElementById('videoList');
+  list.innerHTML = `
+    <div class="file-item">
+      <div class="file-item-icon">🎬</div>
+      <div class="file-item-name">${f.name}</div>
+      <div class="file-item-size">${fmtSize(f.size)}</div>
+      <button class="file-item-remove" onclick="removeVideo()">✕</button>
+    </div>`;
+}
+function removeVideo(){
+  videoFile = null;
+  document.getElementById('videoInput').value = '';
+  document.getElementById('videoList').innerHTML = '';
+}
+
+// ─── COLLECT DATA ─────────────────────────────────────────
+function collectData(){
+  const services = [...document.querySelectorAll('[name="srv"]:checked')].map(r=>r.value);
+  const other = document.getElementById('srvOther').value.trim();
+  if(other) services.push(other);
+
+  return {
+    // Step 1
+    companyName:  document.getElementById('companyName').value.trim(),
+    companyPhone: document.getElementById('companyPhone').value.trim(),
+    companyCity:  document.getElementById('companyCity').value.trim(),
+    age:          document.querySelector('[name="age"]:checked')?.value || '—',
+    // Step 2
+    services:     services.length ? services.join(', ') : '—',
+    client:       document.querySelector('[name="client"]:checked')?.value || '—',
+    // Step 3
+    styleNotes:   document.getElementById('styleNotes').value.trim() || '—',
+    // Step 4
+    domain:       document.querySelector('[name="domain"]:checked')?.value || '—',
+    domainUrl:    document.getElementById('domainUrl').value.trim() || '—',
+    crm:          (()=>{
+                    const v = document.querySelector('[name="crm"]:checked')?.value;
+                    if(v==='Інша') return document.getElementById('crmOther').value.trim() || 'Інша';
+                    return v || '—';
+                  })(),
+    social:       document.querySelector('[name="social"]:checked')?.value || '—',
+    fb:           document.getElementById('fb').value.trim() || '—',
+    ig:           document.getElementById('ig').value.trim() || '—',
+    yt:           document.getElementById('yt').value.trim() || '—',
+    tgPage:       document.getElementById('tgPage').value.trim() || '—',
+    competitors:  document.getElementById('competitors').value.trim() || '—',
+    // Step 5
+    managerName:  document.getElementById('managerName').value.trim(),
+    managerPhone: document.getElementById('managerPhone').value.trim(),
+    managerTg:    document.getElementById('managerTg').value.trim(),
+    managerEmail: document.getElementById('managerEmail').value.trim() || '—',
+    comments:     document.getElementById('comments').value.trim() || '—',
+  };
+}
+
+function buildText(d){
+  const logo   = logoFile   ? `✅ ${logoFile.name} (${fmtSize(logoFile.size)})` : '—';
+  const photos = photoFiles.length ? photoFiles.map(f=>f.name).join(', ') : '—';
+  const video  = videoFile  ? `✅ ${videoFile.name} (${fmtSize(videoFile.size)})` : '—';
+
+  return `🏗 <b>Новий бриф — StartAI</b>
+
+<b>1. Про бізнес</b>
+🏢 Компанія: ${d.companyName}
+📍 Місто/регіон: ${d.companyCity}
+📞 Телефон: ${d.companyPhone}
+🗓 Досвід: ${d.age}
+
+<b>2. Послуги</b>
+🔧 Напрямки: ${d.services}
+👥 Клієнти: ${d.client}
+
+<b>3. Контент</b>
+🎨 Логотип: ${logo}
+📸 Фото (${photoFiles.length} шт.): ${photos}
+🎬 Відео: ${video}
+✏️ Стиль: ${d.styleNotes}
+
+<b>4. Технічне</b>
+🌐 Домен: ${d.domain}${d.domainUrl !== '—' ? ' — '+d.domainUrl : ''}
+💼 CRM: ${d.crm}
+📱 Соцмережі: ${d.social}
+   Facebook: ${d.fb}
+   Instagram: ${d.ig}
+   YouTube: ${d.yt}
+   Telegram: ${d.tgPage}
+🔗 Конкуренти/приклади: ${d.competitors}
+
+<b>5. Контакти менеджера</b>
+👤 Ім'я: ${d.managerName}
+📞 Телефон: ${d.managerPhone}
+✈️ Telegram: ${d.managerTg}
+📧 Email: ${d.managerEmail}
+💬 Коментарі: ${d.comments}`;
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────
+async function submitBrief(){
+  if(!validate(5)) return;
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+
+  const overlay = document.getElementById('overlay');
+  const overlayText = document.getElementById('overlay-text');
+  const overlaySub  = document.getElementById('overlay-sub');
+  overlay.classList.add('show');
+
+  const d = collectData();
+  const text = buildText(d);
+  const API = `https://api.telegram.org/bot${TG_TOKEN}`;
+
+  try {
+    // 1. Send text message
+    overlayText.textContent = 'Відправляємо дані...';
+    overlaySub.textContent = 'Крок 1 з ' + (1 + (logoFile?1:0) + photoFiles.length + (videoFile?1:0));
+    await fetch(`${API}/sendMessage`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ chat_id: TG_CHAT_ID, text, parse_mode:'HTML' }),
+    });
+
+    let sent = 1;
+    const total = 1 + (logoFile?1:0) + photoFiles.length + (videoFile?1:0);
+
+    // 2. Send logo
+    if(logoFile){
+      sent++;
+      overlayText.textContent = `Відправляємо логотип...`;
+      overlaySub.textContent = `Файл ${sent} з ${total}`;
+      const fd = new FormData();
+      fd.append('chat_id', TG_CHAT_ID);
+      fd.append('document', logoFile, logoFile.name);
+      fd.append('caption', '🎨 Логотип компанії: '+d.companyName);
+      await fetch(`${API}/sendDocument`, { method:'POST', body:fd });
+    }
+
+    // 3. Send photos
+    for(let i=0;i<photoFiles.length;i++){
+      sent++;
+      overlayText.textContent = `Відправляємо фото ${i+1} з ${photoFiles.length}...`;
+      overlaySub.textContent = `Файл ${sent} з ${total}`;
+      const fd = new FormData();
+      fd.append('chat_id', TG_CHAT_ID);
+      fd.append('photo', photoFiles[i], photoFiles[i].name);
+      fd.append('caption', `📸 Фото ${i+1}/${photoFiles.length}: ${d.companyName}`);
+      await fetch(`${API}/sendPhoto`, { method:'POST', body:fd });
+    }
+
+    // 4. Send video
+    if(videoFile){
+      sent++;
+      overlayText.textContent = 'Відправляємо відео...';
+      overlaySub.textContent = `Файл ${sent} з ${total} · може зайняти хвилину`;
+      const fd = new FormData();
+      fd.append('chat_id', TG_CHAT_ID);
+      fd.append('document', videoFile, videoFile.name);
+      fd.append('caption', '🎬 Відео: '+d.companyName);
+      await fetch(`${API}/sendDocument`, { method:'POST', body:fd });
+    }
+
+    // Success
+    overlay.classList.remove('show');
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById('success').classList.add('active','show');
+    document.getElementById('prog').style.width='100%';
+    document.querySelectorAll('.pill').forEach(p=>p.classList.replace('active','done')||p.classList.add('done'));
+    window.scrollTo({top:0,behavior:'smooth'});
+
+  } catch(e){
+    overlay.classList.remove('show');
+    submitBtn.disabled = false;
+    alert('Помилка відправки. Спробуйте ще раз або напишіть напряму: @cryptomaus');
+    console.error(e);
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+updateUI();
+</script>
+</body>
+</html>
