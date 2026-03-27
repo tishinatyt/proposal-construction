@@ -182,29 +182,35 @@
     .concept-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .concept-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-    /* ── SITES LIST ── */
-    .sites-list { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
-    .site-row {
-      display: grid; grid-template-columns: 40px 1fr auto;
-      gap: 16px; align-items: center;
-      padding: 18px 20px; border-bottom: 1px solid var(--border);
-      background: var(--white); transition: background .18s;
+    /* ── STAGES GRID ── */
+    .stages-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; margin-top: 36px;
     }
-    .site-row:first-child { border-radius: 10px 10px 0 0; border: 1px solid var(--border); border-bottom: none; }
-    .site-row:last-child  { border-radius: 0 0 10px 10px; border: 1px solid var(--border); border-top: none; }
-    .site-row:not(:first-child):not(:last-child) { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-    .site-row:hover { background: var(--blue-lt); }
-    .site-num {
-      font-family: 'DM Mono', monospace; font-size: 13px;
-      color: var(--blue); font-weight: 500; text-align: center;
+    .stage-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 22px;
+      transition: box-shadow .18s, transform .18s;
     }
-    .site-name { font-size: 15px; font-weight: 600; }
-    .site-tag {
-      font-size: 11px; font-weight: 600; letter-spacing: .06em;
-      text-transform: uppercase; padding: 3px 9px; border-radius: 3px;
-      background: var(--blue-lt); color: var(--blue); white-space: nowrap;
+    .stage-card:hover { box-shadow: 0 4px 20px rgba(30,64,175,.08); transform: translateY(-2px); }
+    .stage-card--final { border-color: var(--blue); background: var(--blue-lt); }
+    .stage-num {
+      font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 600;
+      color: var(--blue); letter-spacing: .08em; margin-bottom: 8px;
     }
-    .site-tag.priority { background: #fef3c7; color: #92400e; }
+    .stage-title {
+      font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 12px;
+    }
+    .stage-note { font-size: 13px; font-weight: 500; color: var(--orange); }
+    .stage-list {
+      list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px;
+    }
+    .stage-list li {
+      font-size: 14px; color: var(--mid); padding-left: 16px; position: relative;
+    }
+    .stage-list li::before {
+      content: '—'; position: absolute; left: 0; color: var(--blue); font-size: 12px;
+    }
 
     /* ── DELIVERABLES ── */
     .deliverables-grid {
@@ -489,67 +495,63 @@
 <!-- SITES LIST -->
 <section id="sites">
   <div class="container">
-    <div class="sec-label reveal"><span class="badge badge-orange">10 напрямків</span></div>
-    <h2 class="sec-title reveal reveal-d1">Порядок запуску сайтів</h2>
-    <p class="sec-sub reveal reveal-d1">Запускаємо послідовно — 1 пакет кожні 2 тижні. Від найпріоритетніших напрямків до додаткових.</p>
+    <div class="sec-label reveal"><span class="badge badge-orange">Процес роботи</span></div>
+    <h2 class="sec-title reveal reveal-d1">📋 Етапи запуску</h2>
+    <p class="sec-sub reveal reveal-d1">Термін виконання: <strong>2 тижні</strong> після отримання матеріалів від клієнта. Передоплата 50% — старт роботи.</p>
 
-    <div class="sites-list reveal">
-      <div class="site-row">
-        <span class="site-num">01</span>
-        <div>
-          <div class="site-name">Сонячні системи та безперебійне живлення</div>
-        </div>
-        <span class="site-tag priority">Тижні 1–2</span>
+    <div class="stages-grid reveal">
+      <div class="stage-card">
+        <div class="stage-num">01</div>
+        <div class="stage-title">Старт <span class="stage-note">— 50% передоплата</span></div>
+        <ul class="stage-list">
+          <li>Ви заповнюєте бриф (15 хвилин)</li>
+          <li>Ми отримуємо всі матеріали</li>
+        </ul>
       </div>
-      <div class="site-row">
-        <span class="site-num">02</span>
-        <div><div class="site-name">Будівництво басейнів</div></div>
-        <span class="site-tag priority">Тижні 3–4</span>
+      <div class="stage-card">
+        <div class="stage-num">02</div>
+        <div class="stage-title">Бренд</div>
+        <ul class="stage-list">
+          <li>Розробка логотипу та фірмового стилю</li>
+          <li>Узгодження з вами</li>
+        </ul>
       </div>
-      <div class="site-row">
-        <span class="site-num">03</span>
-        <div><div class="site-name">Сервісне обслуговування басейнів</div></div>
-        <span class="site-tag priority">Тижні 5–6</span>
+      <div class="stage-card">
+        <div class="stage-num">03</div>
+        <div class="stage-title">Сайт</div>
+        <ul class="stage-list">
+          <li>Розробка лендингу</li>
+          <li>Підключення AI чат-боту 24/7</li>
+          <li>Воронка заявок → Telegram</li>
+          <li>SEO оптимізація</li>
+        </ul>
       </div>
-      <div class="site-row">
-        <span class="site-num">04</span>
-        <div><div class="site-name">Теплові насоси та опалення</div></div>
-        <span class="site-tag">Тижні 7–8</span>
+      <div class="stage-card">
+        <div class="stage-num">04</div>
+        <div class="stage-title">Присутність</div>
+        <ul class="stage-list">
+          <li>Реєстрація Google Business</li>
+          <li>Створення Facebook + Instagram</li>
+        </ul>
       </div>
-      <div class="site-row">
-        <span class="site-num">05</span>
-        <div><div class="site-name">Системи водопостачання та каналізації</div></div>
-        <span class="site-tag">Тижні 9–10</span>
+      <div class="stage-card">
+        <div class="stage-num">05</div>
+        <div class="stage-title">Контент</div>
+        <ul class="stage-list">
+          <li>10 відео з AI аватаром</li>
+          <li>30 постів для соцмереж</li>
+          <li>Контент-план на 3 місяці</li>
+        </ul>
       </div>
-      <div class="site-row">
-        <span class="site-num">06</span>
-        <div><div class="site-name">Вентиляція, кондиціонування, осушення</div></div>
-        <span class="site-tag">Тижні 11–12</span>
-      </div>
-      <div class="site-row">
-        <span class="site-num">07</span>
-        <div><div class="site-name">Автоматичний полив та ландшафтний дизайн</div></div>
-        <span class="site-tag">Тижні 13–14</span>
-      </div>
-      <div class="site-row">
-        <span class="site-num">08</span>
-        <div><div class="site-name">Електромонтажні роботи</div></div>
-        <span class="site-tag">Тижні 15–16</span>
-      </div>
-      <div class="site-row">
-        <span class="site-num">09</span>
-        <div><div class="site-name">Системи відеоспостереження та сигналізації</div></div>
-        <span class="site-tag">Тижні 17–18</span>
-      </div>
-      <div class="site-row">
-        <span class="site-num">10</span>
-        <div><div class="site-name">Оренда обладнання та підйомників</div></div>
-        <span class="site-tag">Тижні 19–20</span>
-      </div>
-      <div class="site-row" style="background:linear-gradient(135deg,#fff8f0,#fff3e6);border:1px solid rgba(234,108,0,.25);">
-        <span class="site-num" style="background:var(--orange);color:#fff;">🎁</span>
-        <div><div class="site-name" style="color:var(--orange);font-weight:700;">Корпоративний портал — бонус</div></div>
-        <span class="site-tag" style="background:var(--orange);color:#fff;border-color:var(--orange);">Тиждень 21</span>
+      <div class="stage-card stage-card--final">
+        <div class="stage-num">06</div>
+        <div class="stage-title">Здача</div>
+        <ul class="stage-list">
+          <li>Тест всіх систем</li>
+          <li>Передача доступів</li>
+          <li>Інструктаж</li>
+          <li>1 місяць підтримки</li>
+        </ul>
       </div>
     </div>
   </div>
