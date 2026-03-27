@@ -259,6 +259,54 @@
     }
     footer a { color: rgba(255,255,255,.7); text-decoration: none; }
 
+    /* ── BRIEF FORM ── */
+    .brief-form { max-width: 600px; display: flex; flex-direction: column; gap: 28px; margin-top: 32px; }
+    .bf-group { display: flex; flex-direction: column; gap: 10px; }
+    .bf-label { font-size: 15px; font-weight: 600; }
+    .bf-input {
+      width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-family: 'Manrope', sans-serif;
+      font-size: 14px; color: var(--text); background: var(--white);
+      transition: border-color .15s, box-shadow .15s; outline: none;
+    }
+    .bf-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,64,175,.1); }
+    .bf-input::placeholder { color: var(--muted); }
+    .bf-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .bf-chip {
+      padding: 8px 18px; border-radius: 6px;
+      border: 1.5px solid var(--border); background: var(--white);
+      font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600;
+      color: var(--muted); cursor: pointer; transition: all .15s;
+    }
+    .bf-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
+    .bf-chip.selected { border-color: var(--orange); color: var(--orange); background: var(--ora-lt); }
+    .bf-sub { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .bf-file-label input[type="file"] { display: none; }
+    .bf-file-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border: 1.5px dashed var(--border);
+      border-radius: 8px; font-size: 14px; font-weight: 600;
+      color: var(--muted); cursor: pointer; transition: all .15s;
+    }
+    .bf-file-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
+    .bf-file-preview { font-size: 13px; color: var(--muted); }
+    .bf-submit {
+      align-self: flex-start; font-size: 15px; padding: 14px 32px;
+      margin-top: 4px;
+    }
+    .bf-success {
+      padding: 16px 20px; background: var(--green-lt);
+      border: 1px solid rgba(22,163,74,.3); border-radius: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+    }
+    .bf-success a { color: var(--green); }
+    .bf-error {
+      padding: 16px 20px; background: #fff1f2;
+      border: 1px solid rgba(220,38,38,.3); border-radius: 8px;
+      font-size: 14px; font-weight: 600; color: #dc2626;
+    }
+    .bf-error a { color: #dc2626; }
+
     @media (max-width: 600px) {
       .stage { grid-template-columns: 1fr; }
       .stage-left { flex-direction: row; }
@@ -323,7 +371,7 @@
           <div class="stage-line"></div>
         </div>
         <div>
-          <div class="stage-title">Бренд <span class="tag">50% передоплата</span></div>
+          <div class="stage-title">Бренд</div>
           <div class="stage-items">
             <div class="stage-item">Ви заповнюєте бриф (15 хвилин)</div>
             <div class="stage-item">Ми отримуємо всі матеріали</div>
@@ -470,26 +518,10 @@
 
     <div class="info-card info-card--green">
       <ul class="info-list" style="list-style:none;padding:0;">
-        <li><span class="icon">✅</span> <span>Заповнити бриф</span></li>
         <li><span class="icon">✅</span> <span>Надати фото реальних об'єктів</span></li>
         <li><span class="icon">✅</span> <span>Вказати телефон для заявок</span></li>
         <li><span class="icon">✅</span> <span>50% передоплата для старту</span></li>
       </ul>
-    </div>
-
-    <div style="margin-top:32px;">
-      <div class="sec-eyebrow">Нам важливо знати</div>
-      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Питання до клієнта</h3>
-      <div class="info-card">
-        <ul class="info-list" style="list-style:none;padding:0;">
-          <li><span class="icon">💼</span> <span>Повна назва компанії</span></li>
-          <li><span class="icon">📊</span> <span>Яка CRM зараз використовується?</span></li>
-          <li><span class="icon">📱</span> <span>Соціальні мережі є?</span></li>
-          <li><span class="icon">🎨</span> <span>Логотип є? (якщо так — завантажити у бриф)</span></li>
-          <li><span class="icon">🌐</span> <span>Домен який подобається?</span></li>
-          <li><span class="icon">✈️</span> <span>Telegram/Viber для заявок — один менеджер чи різні для кожного напрямку?</span></li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>
@@ -522,14 +554,107 @@
   </div>
 </div>
 
+<!-- INLINE BRIEF -->
+<div class="section" id="brief">
+  <div class="container">
+    <div class="sec-eyebrow">Нам важливо знати</div>
+    <h2 class="sec-title">Питання до клієнта</h2>
+    <p class="sec-sub">Заповніть форму — відповіді прийдуть нам у Telegram одразу.</p>
+
+    <form id="briefForm" class="brief-form" onsubmit="submitBrief(event)">
+
+      <!-- Назва компанії -->
+      <div class="bf-group">
+        <label class="bf-label">💼 Повна назва компанії</label>
+        <input type="text" id="bf_name" class="bf-input" placeholder="Наприклад: ТОВ «БудТехГруп»" />
+      </div>
+
+      <!-- CRM -->
+      <div class="bf-group">
+        <label class="bf-label">📊 Яка CRM зараз використовується?</label>
+        <div class="bf-chips" id="crm_chips">
+          <button type="button" class="bf-chip" onclick="selectChip('crm','Немає',this)">Немає</button>
+          <button type="button" class="bf-chip" onclick="selectChip('crm','Бітрікс',this)">Бітрікс</button>
+          <button type="button" class="bf-chip" onclick="selectChip('crm','amoCRM',this)">amoCRM</button>
+          <button type="button" class="bf-chip" onclick="selectChip('crm','Інша',this)">Інша</button>
+        </div>
+      </div>
+
+      <!-- Соцмережі -->
+      <div class="bf-group">
+        <label class="bf-label">📱 Соціальні мережі є?</label>
+        <div class="bf-chips">
+          <button type="button" class="bf-chip" onclick="selectChip('social','Так',this);toggleSection('social_links',true)">Так</button>
+          <button type="button" class="bf-chip" onclick="selectChip('social','Ні',this);toggleSection('social_links',false)">Ні</button>
+        </div>
+        <div id="social_links" class="bf-sub" style="display:none;">
+          <input type="text" id="bf_fb"  class="bf-input" placeholder="Facebook (посилання)" />
+          <input type="text" id="bf_ig"  class="bf-input" placeholder="Instagram (посилання)" />
+          <input type="text" id="bf_yt"  class="bf-input" placeholder="YouTube (посилання)" />
+          <input type="text" id="bf_tg_ch" class="bf-input" placeholder="Telegram-канал (посилання)" />
+        </div>
+      </div>
+
+      <!-- Логотип -->
+      <div class="bf-group">
+        <label class="bf-label">🎨 Логотип є?</label>
+        <div class="bf-chips">
+          <button type="button" class="bf-chip" onclick="selectChip('logo','Так',this);toggleSection('logo_upload',true)">Так</button>
+          <button type="button" class="bf-chip" onclick="selectChip('logo','Ні',this);toggleSection('logo_upload',false)">Ні</button>
+        </div>
+        <div id="logo_upload" class="bf-sub" style="display:none;">
+          <label class="bf-file-label">
+            <input type="file" id="bf_logo_file" accept="image/*,.pdf,.svg,.ai,.eps" />
+            <span class="bf-file-btn">📎 Вибрати файл логотипу</span>
+          </label>
+          <div id="logo_preview" class="bf-file-preview"></div>
+        </div>
+      </div>
+
+      <!-- Домен -->
+      <div class="bf-group">
+        <label class="bf-label">🌐 Домен який подобається?</label>
+        <input type="text" id="bf_domain" class="bf-input" placeholder="Наприклад: budgroup.ua або щось подібне" />
+      </div>
+
+      <!-- Telegram/Viber -->
+      <div class="bf-group">
+        <label class="bf-label">✈️ Telegram/Viber для заявок</label>
+        <input type="text" id="bf_contact" class="bf-input" placeholder="@username або +380XXXXXXXXX" />
+      </div>
+
+      <!-- Один чи різні менеджери -->
+      <div class="bf-group">
+        <label class="bf-label">👥 Один менеджер на всі напрямки чи різні?</label>
+        <div class="bf-chips">
+          <button type="button" class="bf-chip" onclick="selectChip('managers','Один',this)">Один</button>
+          <button type="button" class="bf-chip" onclick="selectChip('managers','Різні',this)">Різні</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-orange bf-submit" id="bf_submit_btn">
+        Надіслати відповіді →
+      </button>
+
+      <div id="bf_success" class="bf-success" style="display:none;">
+        ✅ Дякуємо! Відповіді отримали — скоро напишемо в <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a>
+      </div>
+      <div id="bf_error" class="bf-error" style="display:none;">
+        ❌ Помилка надсилання. Напишіть нам напряму: <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
 <!-- CTA -->
 <div class="cta-section">
   <div class="container">
     <h2>Готові розпочати?</h2>
-    <p>Заповніть бриф — це займе 15 хвилин і дасть нам все необхідне для старту.</p>
+    <p>Напишіть нам у Telegram або прокрутіть вгору та заповніть форму вище.</p>
     <div class="cta-buttons">
-      <a href="construction-brief.html" class="btn btn-orange">📋 Заповнити бриф</a>
-      <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-ghost">✈️ Написати в Telegram</a>
+      <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-orange">✈️ Написати @cryptomaus</a>
+      <a href="#brief" class="btn btn-ghost">📋 Заповнити форму</a>
     </div>
   </div>
 </div>
@@ -542,5 +667,101 @@
   </div>
 </footer>
 
+<script>
+  const TG_TOKEN   = '8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
+  const TG_CHAT_ID = '503549265';
+
+  const answers = { crm: '', social: '', logo: '', managers: '' };
+
+  function selectChip(field, value, el) {
+    answers[field] = value;
+    el.closest('.bf-chips').querySelectorAll('.bf-chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function toggleSection(id, show) {
+    document.getElementById(id).style.display = show ? 'flex' : 'none';
+  }
+
+  document.getElementById('bf_logo_file').addEventListener('change', function() {
+    const preview = document.getElementById('logo_preview');
+    preview.textContent = this.files[0] ? '📎 ' + this.files[0].name : '';
+  });
+
+  async function sendToTelegram(text) {
+    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT_ID, text, parse_mode: 'HTML' }),
+    });
+    if (!r.ok) throw new Error('TG error');
+  }
+
+  async function sendFile(file, caption) {
+    const fd = new FormData();
+    fd.append('chat_id', TG_CHAT_ID);
+    fd.append('document', file, file.name);
+    fd.append('caption', caption);
+    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendDocument`, {
+      method: 'POST', body: fd,
+    });
+    if (!r.ok) throw new Error('TG file error');
+  }
+
+  async function submitBrief(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById('bf_submit_btn');
+    btn.disabled = true;
+    btn.textContent = 'Надсилаємо…';
+
+    const name    = document.getElementById('bf_name').value.trim();
+    const domain  = document.getElementById('bf_domain').value.trim();
+    const contact = document.getElementById('bf_contact').value.trim();
+    const logoFile = document.getElementById('bf_logo_file').files[0];
+
+    let socialBlock = '';
+    if (answers.social === 'Так') {
+      const fb = document.getElementById('bf_fb').value.trim();
+      const ig = document.getElementById('bf_ig').value.trim();
+      const yt = document.getElementById('bf_yt').value.trim();
+      const tg = document.getElementById('bf_tg_ch').value.trim();
+      socialBlock = [
+        fb && `  Facebook: ${fb}`,
+        ig && `  Instagram: ${ig}`,
+        yt && `  YouTube: ${yt}`,
+        tg && `  Telegram: ${tg}`,
+      ].filter(Boolean).join('\n');
+    }
+
+    const text = [
+      '📋 <b>Відповіді клієнта (plan.html)</b>',
+      '',
+      `💼 <b>Компанія:</b> ${name || '—'}`,
+      `📊 <b>CRM:</b> ${answers.crm || '—'}`,
+      `📱 <b>Соцмережі:</b> ${answers.social || '—'}`,
+      socialBlock,
+      `🎨 <b>Логотип:</b> ${answers.logo || '—'}`,
+      `🌐 <b>Домен:</b> ${domain || '—'}`,
+      `✈️ <b>Контакт:</b> ${contact || '—'}`,
+      `👥 <b>Менеджер(и):</b> ${answers.managers || '—'}`,
+    ].filter(s => s !== undefined).join('\n');
+
+    try {
+      await sendToTelegram(text);
+      if (logoFile && answers.logo === 'Так') {
+        await sendFile(logoFile, 'Логотип клієнта');
+      }
+      document.getElementById('bf_success').style.display = 'block';
+      document.getElementById('bf_error').style.display = 'none';
+      document.getElementById('briefForm').style.opacity = '.4';
+      document.getElementById('briefForm').style.pointerEvents = 'none';
+    } catch {
+      document.getElementById('bf_error').style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Спробувати ще раз';
+    }
+  }
+</script>
 </body>
 </html>
