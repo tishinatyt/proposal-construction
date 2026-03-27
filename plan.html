@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Як ми працюємо | StartAI</title>
+  <meta name="description" content="Детальний план роботи: бренд, сайт, хостинг, маркетинг, контент, здача. StartAI, Дмитро Кутєпов." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f8f9fc;
+      --white:   #ffffff;
+      --blue:    #1e40af;
+      --blue2:   #3b82f6;
+      --blue-lt: #eff6ff;
+      --orange:  #ea6c00;
+      --orange2: #f97316;
+      --ora-lt:  #fff7ed;
+      --text:    #0f172a;
+      --muted:   #64748b;
+      --border:  #e2e8f0;
+      --green:   #16a34a;
+      --green-lt:#f0fdf4;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.65; overflow-x: hidden;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--blue); color: rgba(255,255,255,.85);
+      padding: 10px 0; font-size: 13px; font-weight: 500;
+    }
+    .topbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .topbar a { color: #fff; text-decoration: none; }
+    .topbar .dot { color: rgba(255,255,255,.4); }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      width: 34px; height: 34px; background: var(--blue);
+      clip-path: polygon(0 0,100% 0,100% 72%,72% 100%,0 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: #fff;
+    }
+    .logo-name { font-size: 19px; font-weight: 800; color: var(--text); }
+    .logo-name span { color: var(--blue); }
+    .header-nav { display: flex; gap: 20px; align-items: center; }
+    .header-nav a {
+      font-size: 14px; font-weight: 600; color: var(--muted);
+      text-decoration: none; transition: color .15s;
+    }
+    .header-nav a:hover { color: var(--blue); }
+    .header-nav a.active { color: var(--orange); }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a6e 60%, #1e40af 100%);
+      padding: 60px 0 52px; position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .badge-white {
+      background: rgba(255,255,255,.12); color: rgba(255,255,255,.9);
+      border: 1px solid rgba(255,255,255,.2);
+      font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 4px;
+      display: inline-block; margin-bottom: 18px;
+    }
+    .page-hero h1 {
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 800; line-height: 1.15; color: #fff;
+      letter-spacing: -.4px; margin-bottom: 14px;
+    }
+    .page-hero p {
+      font-size: 16px; color: rgba(255,255,255,.72); max-width: 520px; line-height: 1.7;
+    }
+
+    /* ── SECTIONS ── */
+    .section { padding: 70px 0; }
+    .section:nth-child(odd) { background: var(--bg); }
+    .section:nth-child(even) { background: var(--white); }
+
+    .sec-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 10px;
+    }
+    .sec-title {
+      font-size: clamp(20px, 3vw, 30px); font-weight: 800;
+      letter-spacing: -.3px; margin-bottom: 10px;
+    }
+    .sec-sub { font-size: 15px; color: var(--muted); max-width: 520px; line-height: 1.65; margin-bottom: 32px; }
+
+    /* ── STAGE BLOCKS ── */
+    .stages { display: flex; flex-direction: column; gap: 16px; }
+    .stage {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px 28px 28px 24px;
+      display: grid; grid-template-columns: 52px 1fr;
+      gap: 20px; align-items: start;
+      transition: box-shadow .18s, transform .18s;
+    }
+    .section:nth-child(even) .stage { background: var(--bg); }
+    .stage:hover { box-shadow: 0 4px 20px rgba(30,64,175,.07); transform: translateY(-2px); }
+    .stage-left { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .stage-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blue-lt); color: var(--blue);
+      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stage-line {
+      width: 2px; background: var(--border); flex: 1; min-height: 20px; border-radius: 1px;
+    }
+    .stage:last-child .stage-line { display: none; }
+    .stage-title {
+      font-size: 17px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .stage-title .tag {
+      font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      background: var(--ora-lt); color: var(--orange);
+      padding: 2px 8px; border-radius: 3px;
+    }
+    .stage-items { display: flex; flex-direction: column; gap: 8px; }
+    .stage-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--muted); line-height: 1.5;
+    }
+    .stage-item::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue2); flex-shrink: 0; margin-top: 6px;
+    }
+
+    /* ── INFO CARD ── */
+    .info-card {
+      border-radius: 14px; padding: 32px; border: 1px solid var(--border);
+      background: var(--white);
+    }
+    .info-card + .info-card { margin-top: 16px; }
+    .info-card--orange {
+      background: var(--ora-lt); border-color: rgba(234,108,0,.25);
+    }
+    .info-card--blue {
+      background: var(--blue-lt); border-color: rgba(30,64,175,.2);
+    }
+    .info-card--green {
+      background: var(--green-lt); border-color: rgba(22,163,74,.2);
+    }
+    .info-card-title {
+      font-size: 16px; font-weight: 700; margin-bottom: 14px;
+    }
+    .info-list { display: flex; flex-direction: column; gap: 9px; }
+    .info-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--text); line-height: 1.5;
+    }
+    .info-list li .icon { flex-shrink: 0; font-size: 15px; }
+    .info-list li span { color: var(--muted); }
+
+    /* ── SEO BLOCK ── */
+    .seo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px; margin-top: 28px;
+    }
+    .seo-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+    }
+    .seo-card-icon { font-size: 22px; margin-bottom: 10px; }
+    .seo-card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .seo-card-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .warning-box {
+      background: #fffbeb; border: 1px solid #fcd34d;
+      border-radius: 10px; padding: 20px 22px;
+      font-size: 14px; line-height: 1.6; margin-top: 20px;
+    }
+    .warning-box strong { color: #92400e; }
+
+    /* ── PAYMENT ── */
+    .payment-steps {
+      display: grid; grid-template-columns: 1fr 40px 1fr;
+      gap: 0; align-items: center; margin-top: 28px; max-width: 600px;
+    }
+    .pay-step {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .pay-step:first-child { border-right: none; border-radius: 12px 0 0 12px; }
+    .pay-step:last-child  { border-left: none; border-radius: 0 12px 12px 0; }
+    .pay-arrow { text-align: center; font-size: 20px; color: var(--muted); }
+    .pay-pct {
+      font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 600;
+      color: var(--blue); margin-bottom: 6px;
+    }
+    .pay-label { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .pay-note { font-size: 12px; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a6e 60%, #1e40af 100%);
+      padding: 70px 0; text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(22px, 3.5vw, 36px); font-weight: 800;
+      color: #fff; margin-bottom: 14px;
+    }
+    .cta-section p {
+      font-size: 16px; color: rgba(255,255,255,.7); margin-bottom: 36px;
+    }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'Manrope', sans-serif; font-weight: 700;
+      font-size: 15px; padding: 14px 30px; border-radius: 7px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform .18s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-orange {
+      background: var(--orange); color: #fff;
+      box-shadow: 0 4px 16px rgba(234,108,0,.35);
+    }
+    .btn-orange:hover { box-shadow: 0 8px 28px rgba(234,108,0,.5); }
+    .btn-ghost {
+      background: rgba(255,255,255,.1); color: #fff;
+      border: 1px solid rgba(255,255,255,.3);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.18); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text); color: rgba(255,255,255,.5);
+      padding: 28px 0; font-size: 13px; text-align: center;
+    }
+    footer a { color: rgba(255,255,255,.7); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .stage { grid-template-columns: 1fr; }
+      .stage-left { flex-direction: row; }
+      .stage-line { display: none; }
+      .payment-steps { grid-template-columns: 1fr; gap: 0; }
+      .pay-step { border-radius: 12px !important; border: 1px solid var(--border) !important; }
+      .pay-step + .pay-step { margin-top: 12px; }
+      .pay-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <span>Комерційна пропозиція <span class="dot">·</span> Дмитро Кутєпов, StartAI</span>
+      <span>Чернігів <span class="dot">·</span> <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a></span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">S</div>
+        <span class="logo-name">Start<span>AI</span></span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html">Пропозиція</a>
+        <a href="plan.html" class="active">Як ми працюємо</a>
+        <a href="construction-brief.html">Бриф</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge-white">Процес роботи</div>
+    <h1>Як ми працюємо</h1>
+    <p>Від брифу до здачі — прозорий процес з фіксованим терміном. Все включено, жодних прихованих витрат.</p>
+  </div>
+</div>
+
+<!-- STAGES -->
+<div class="section">
+  <div class="container">
+    <div class="sec-eyebrow">Етапи виконання</div>
+    <h2 class="sec-title">6 етапів від старту до результату</h2>
+    <p class="sec-sub">Термін виконання — <strong>2 тижні</strong> після отримання матеріалів від клієнта.</p>
+
+    <div class="stages">
+      <!-- Етап 1 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">01</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Бренд <span class="tag">50% передоплата</span></div>
+          <div class="stage-items">
+            <div class="stage-item">Ви заповнюєте бриф (15 хвилин)</div>
+            <div class="stage-item">Ми отримуємо всі матеріали</div>
+            <div class="stage-item">Розробка логотипу та фірмового стилю</div>
+            <div class="stage-item">Узгодження з вами</div>
+            <div class="stage-item">Правки якщо потрібно</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Етап 2 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">02</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Сайт</div>
+          <div class="stage-items">
+            <div class="stage-item">Розробка сайту</div>
+            <div class="stage-item">Підключення AI чат-боту 24/7</div>
+            <div class="stage-item">Калькулятор або бриф-форма (воронка заявок)</div>
+            <div class="stage-item">Налаштування заявок → Telegram</div>
+            <div class="stage-item">Правки до повного узгодження</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Етап 3 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">03</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Хостинг та інфраструктура <span class="tag" style="background:#f0fdf4;color:#16a34a;">VPS Hetzner</span></div>
+          <div class="stage-items">
+            <div class="stage-item">Хмарний хостинг для всіх проектів — €6/міс</div>
+            <div class="stage-item">Сервери в Європі — ідеальний пінг для України</div>
+            <div class="stage-item">Встановлення Docker</div>
+            <div class="stage-item">Деплой всіх ботів і бекендів</div>
+            <div class="stage-item">Налаштування автозапуску</div>
+            <div class="stage-item">SSL сертифікати</div>
+            <div class="stage-item">Nginx як роутер</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Етап 4 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">04</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Маркетинг</div>
+          <div class="stage-items">
+            <div class="stage-item">SEO оптимізація сайту</div>
+            <div class="stage-item">Реєстрація Google Business (карти Google)</div>
+            <div class="stage-item">Створення Facebook + Instagram сторінок</div>
+            <div class="stage-item">Наповнення першим контентом</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Етап 5 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">05</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Контент</div>
+          <div class="stage-items">
+            <div class="stage-item">Написання сценаріїв для 10 роликів</div>
+            <div class="stage-item">Виробництво відео з AI аватаром</div>
+            <div class="stage-item">Підготовка 30 постів для соцмереж</div>
+            <div class="stage-item">Контент-план на місяць</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Етап 6 -->
+      <div class="stage">
+        <div class="stage-left">
+          <div class="stage-num">06</div>
+          <div class="stage-line"></div>
+        </div>
+        <div>
+          <div class="stage-title">Здача <span class="tag" style="background:#f0fdf4;color:#16a34a;">Фінал</span></div>
+          <div class="stage-items">
+            <div class="stage-item">Фінальний тест всіх систем</div>
+            <div class="stage-item">Передача всіх доступів</div>
+            <div class="stage-item">Інструктаж як користуватись</div>
+            <div class="stage-item">1 місяць підтримки безкоштовно</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEO -->
+<div class="section">
+  <div class="container">
+    <div class="sec-eyebrow">Органічний трафік</div>
+    <h2 class="sec-title">Як ми просуваємо в Google</h2>
+    <p class="sec-sub">Комплексне SEO для кожного напрямку бізнесу — від семантики до технічної оптимізації.</p>
+
+    <div class="seo-grid">
+      <div class="seo-card">
+        <div class="seo-card-icon">🔍</div>
+        <div class="seo-card-title">Семантичне ядро</div>
+        <div class="seo-card-text">50–100 запитів для кожного напрямку. Реальні запити ваших клієнтів.</div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-icon">📄</div>
+        <div class="seo-card-title">Оптимізація сайту</div>
+        <div class="seo-card-text">Кожна сторінка заточена під конкретні пошукові запити.</div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-icon">⚙️</div>
+        <div class="seo-card-title">Технічне SEO</div>
+        <div class="seo-card-text">Заголовки, мета-теги, карта сайту, Google Search Console.</div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-icon">📍</div>
+        <div class="seo-card-title">Google Business</div>
+        <div class="seo-card-text">Компанія на картах Google з фото, відгуками та контактами.</div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      ⚠️ <strong>SEO — довгострокова інвестиція.</strong> Перші результати в пошуку — через 3–6 місяців. Якщо потрібні клієнти вже зараз — Google Ads або Facebook реклама (окремий рекламний бюджет, не входить у вартість).
+    </div>
+  </div>
+</div>
+
+<!-- FROM YOU -->
+<div class="section">
+  <div class="container">
+    <div class="sec-eyebrow">Ваша участь</div>
+    <h2 class="sec-title">Що потрібно від вас</h2>
+
+    <div class="info-card info-card--green">
+      <ul class="info-list" style="list-style:none;padding:0;">
+        <li><span class="icon">✅</span> <span>Заповнити бриф</span></li>
+        <li><span class="icon">✅</span> <span>Надати фото реальних об'єктів</span></li>
+        <li><span class="icon">✅</span> <span>Вказати телефон для заявок</span></li>
+        <li><span class="icon">✅</span> <span>50% передоплата для старту</span></li>
+      </ul>
+    </div>
+
+    <div style="margin-top:32px;">
+      <div class="sec-eyebrow">Нам важливо знати</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Питання до клієнта</h3>
+      <div class="info-card">
+        <ul class="info-list" style="list-style:none;padding:0;">
+          <li><span class="icon">💼</span> <span>Повна назва компанії</span></li>
+          <li><span class="icon">📊</span> <span>Яка CRM зараз використовується?</span></li>
+          <li><span class="icon">📱</span> <span>Соціальні мережі є?</span></li>
+          <li><span class="icon">🎨</span> <span>Логотип є? (якщо так — завантажити у бриф)</span></li>
+          <li><span class="icon">🌐</span> <span>Домен який подобається?</span></li>
+          <li><span class="icon">✈️</span> <span>Telegram/Viber для заявок — один менеджер чи різні для кожного напрямку?</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT -->
+<div class="section">
+  <div class="container">
+    <div class="sec-eyebrow">Умови оплати</div>
+    <h2 class="sec-title">Оплата</h2>
+    <p class="sec-sub">Простий і чесний розподіл.</p>
+
+    <div class="payment-steps">
+      <div class="pay-step">
+        <div class="pay-pct">50%</div>
+        <div class="pay-label">Передоплата</div>
+        <div class="pay-note">Старт роботи</div>
+      </div>
+      <div class="pay-arrow">→</div>
+      <div class="pay-step">
+        <div class="pay-pct">50%</div>
+        <div class="pay-label">Після здачі</div>
+        <div class="pay-note">Передача всіх доступів</div>
+      </div>
+    </div>
+
+    <div class="info-card info-card--orange" style="margin-top:24px;max-width:600px;">
+      <div class="info-card-title">⏱ Термін: 2 тижні</div>
+      <div style="font-size:14px;color:var(--muted);">Відлік починається після отримання всіх матеріалів від клієнта (логотип, фото, телефон для заявок, доступи якщо є).</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="container">
+    <h2>Готові розпочати?</h2>
+    <p>Заповніть бриф — це займе 15 хвилин і дасть нам все необхідне для старту.</p>
+    <div class="cta-buttons">
+      <a href="construction-brief.html" class="btn btn-orange">📋 Заповнити бриф</a>
+      <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-ghost">✈️ Написати в Telegram</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    StartAI · Дмитро Кутєпов · Чернігів ·
+    <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a>
+  </div>
+</footer>
+
+</body>
+</html>
